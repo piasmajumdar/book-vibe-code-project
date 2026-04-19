@@ -7,11 +7,17 @@ import MainLayout from './Layout/MainLayout.jsx'
 import Homepage from './pages/homepage/Homepage.jsx'
 import Books from './pages/books/Books.jsx'
 import { router } from './routes/router.jsx'
+import BookProvider from './context/BookContext.jsx'
+import { ToastContainer } from 'react-toastify'
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <BookProvider>
+      <RouterProvider router={router}></RouterProvider>
+      <ToastContainer />
+    </BookProvider>
   </StrictMode>,
+
 )
