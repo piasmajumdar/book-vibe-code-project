@@ -29,8 +29,8 @@ const BookDetails = () => {
 
     const data = useContext(BookContext);
     // console.log(data)
-    const {handleMarkAsRead, storedBooks, handleWishList} = data;
-    // console.log(storedBooks)
+    const {handleMarkAsRead, readList, handleWishList} = data;
+    // console.log(readList)
 
 
     return (
