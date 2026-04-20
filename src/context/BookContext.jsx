@@ -1,11 +1,19 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { addBookToWishListInLocalDB, addReadListToLocalDB, getAllReadListFromLocalDB, getAllWishListFromLocalDB } from '../utils/localDB';
 
 export const BookContext = createContext()
 
 const BookProvider = ({ children }) => {
-    const [readList, setreadList] = useState([]);
-    const [wishList, setWishList] = useState([]);
+    const [readList, setReadList] = useState(()=> getAllReadListFromLocalDB());
+    const [wishList, setWishList] = useState(getAllWishListFromLocalDB());
+
+    // useEffect(()=>{
+    //     const readListFromLocalDB =  getAllReadListFromLocalDB();
+    //     console.log(readListFromLocalDB, 'getReadListFromLocalDB');
+    //     setReadList(readListFromLocalDB);
+    // },[]) --> Doesn't work properly when refreshes the page.
+
 
     const handleMarkAsRead = (currentBook) => {
         // step 1: store book id or book boject
@@ -13,12 +21,13 @@ const BookProvider = ({ children }) => {
         // step 3: array or collection
         // step 4: If the book already exists then show an alert or toast
         // step 5: If not then add the book in the array or collection
+        addReadListToLocalDB(currentBook);
 
         const isExistBook = readList.find(book => book.bookId == currentBook.bookId);
         if (isExistBook) {
             toast.error("The book already exist in read list.")
         } else {
-            setreadList([...readList, currentBook])
+            setReadList([...readList, currentBook])
             toast.success(`${currentBook.bookName} is added to the Read List`)
         }
         // console.log(currentBook, "Current Book")
@@ -39,12 +48,13 @@ const BookProvider = ({ children }) => {
         }
         else {
             setWishList([...wishList, currentBook]);
+            addBookToWishListInLocalDB(currentBook)
             toast.success( `${currentBook.bookName} is added to Wish List`)
         }
     }
 
     const data = {
-        readList, setreadList, handleMarkAsRead,
+        readList, setReadList, handleMarkAsRead,
         wishList, setWishList, handleWishList
     }
 

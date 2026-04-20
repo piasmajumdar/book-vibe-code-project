@@ -28,8 +28,8 @@ const BookDetails = () => {
 
 
     const data = useContext(BookContext);
+    const {handleMarkAsRead, handleWishList} = data;
     // console.log(data)
-    const {handleMarkAsRead, readList, handleWishList} = data;
     // console.log(readList)
 
 
